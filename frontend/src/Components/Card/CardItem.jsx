@@ -3,9 +3,8 @@ import { useParams } from 'react-router-dom';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
 import { useDispatch, useSelector } from 'react-redux';
-import { addToCart, removeFromCart} from '../Store/CartSlice';
+import { addToCart, removeFromCart } from '../Store/CartSlice';
 import AuthModal from '../../Form/Form';
-
 
 const ItemDetails = () => {
   const { id } = useParams(); 
@@ -28,7 +27,7 @@ const ItemDetails = () => {
     dispatch(removeFromCart(item));
   };
 
-  const isInCart = items.some((cartItem) => cartItem.id === item.id);
+  const isInCart = item ? items.some((cartItem) => cartItem.id === item.id) : false;
 
   useEffect(() => {
     const fetchItem = async () => {
@@ -65,12 +64,12 @@ const ItemDetails = () => {
       <p className="mt-2 text-gray-500">Category: {item.category}</p>
       <p className="mt-2 text-yellow-500">Rating: ⭐ {item.rating.rate} ({item.rating.count} reviews)</p>
       <div>
-      <button
-            onClick={isInCart ? handleRemoveFromCart : handleAddToCart}
-            className={`px-4 py-2 rounded ${isInCart ? 'bg-red-500' : 'bg-blue-500'} text-white`}
-          >
-            {isInCart ? <RemoveShoppingCartIcon/> : <AddShoppingCartIcon/>}
-          </button>
+        <button
+          onClick={isInCart ? handleRemoveFromCart : handleAddToCart}
+          className={`px-4 py-2 rounded ${isInCart ? 'bg-red-500' : 'bg-blue-500'} text-white`}
+        >
+          {isInCart ? <RemoveShoppingCartIcon /> : <AddShoppingCartIcon />}
+        </button>
       </div>
       {showAuthModal && <AuthModal closeModal={() => setShowAuthModal(false)} />}
     </div>

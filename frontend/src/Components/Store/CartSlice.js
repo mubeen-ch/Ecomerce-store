@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   items: [],
   isCartOpen: false,
-  isAuthenticated: false, 
+  isAuthenticated: localStorage.getItem('isAuthenticated') === 'true' || false,
 };
 
 export const cartSlice = createSlice({
@@ -32,12 +32,21 @@ export const cartSlice = createSlice({
     closeCart: (state) => {
       state.isCartOpen = false;
     },
+    // login: (state) => {
+    //   state.isAuthenticated = true;
+    // },
+    // logout: (state) => {
+    //   state.isAuthenticated = false;
+    //   state.items = []; 
+    // },
     login: (state) => {
       state.isAuthenticated = true;
+      localStorage.setItem('isAuthenticated', 'true');
     },
     logout: (state) => {
       state.isAuthenticated = false;
-      state.items = []; 
+      state.items = [];
+      localStorage.setItem('isAuthenticated', 'false');
     },
     clearCart: (state) => {
       state.items = [];

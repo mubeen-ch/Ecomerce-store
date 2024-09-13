@@ -13,6 +13,9 @@ const Card = ({ item }) => {
   const { items, isAuthenticated } = useSelector((state) => state.cart);
   const [showAuthModal, setShowAuthModal] = useState(false);
 
+
+ 
+
   const handleAddToCart = () => {
     if (!isAuthenticated) {
       setShowAuthModal(true);
@@ -27,8 +30,13 @@ const Card = ({ item }) => {
 
   const isInCart = items.some((cartItem) => cartItem.id === item.id);
   const handleViewDetails = () => {
-    navigate(`/item/${item.id}`); 
+    if (!item || !item.id) {
+      console.error('Item not found or invalid.');
+      return;
+    }
+    navigate(`/item/${item.id}`);
   };
+  
 
   return (
     <div className="bg-white shadow-lg rounded-lg overflow-hidden m-5 ">

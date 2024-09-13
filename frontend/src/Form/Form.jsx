@@ -1,6 +1,7 @@
+// AuthModal.jsx
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { setAuthentication } from '../Components/Store/CartSlice';
+import { login } from '../Components/Store/CartSlice'; 
 import CloseIcon from '@mui/icons-material/Close';
 
 const AuthModal = ({ closeModal }) => {
@@ -34,12 +35,14 @@ const AuthModal = ({ closeModal }) => {
         return;
       }
       localStorage.setItem('user', JSON.stringify({ email: formData.email, password: formData.password }));
-      dispatch(setAuthentication(true));
+      localStorage.setItem('isAuthenticated', 'true'); // Set authentication status
+      dispatch(login());
       closeModal();
     }  else {
       const user = JSON.parse(localStorage.getItem('user'));
       if (user && user.email === formData.email && user.password === formData.password) {
-        dispatch(setAuthentication(true));
+        localStorage.setItem('isAuthenticated', 'true'); // Set authentication status
+        dispatch(login());
         closeModal();
       } else {
         alert("Invalid credentials.");
@@ -48,11 +51,10 @@ const AuthModal = ({ closeModal }) => {
   };
 
   return (
-    
     <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center">
       <div className="bg-white p-8 rounded shadow-md">
         <div className='flex justify-end'>
-        <CloseIcon  onClick={closeModal} />
+          <CloseIcon onClick={closeModal} />
         </div>
         <h2 className="text-2xl font-bold mb-4">{isSignup ? 'Sign Up' : 'Login'}</h2>
         <form onSubmit={handleSubmit}>
